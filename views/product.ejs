@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= product.name %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-10">
+    <div class="max-w-4xl mx-auto">
+        <a href="/" class="text-blue-500 hover:underline mb-4 block">&larr; Back to Home</a>
+        
+        <div class="bg-white p-8 rounded shadow mb-8">
+            <h1 class="text-3xl font-bold mb-2"><%= product.name %></h1>
+            <p class="text-gray-600 mb-4"><%= product.description %></p>
+            <p class="text-2xl font-bold text-green-600">$<%= product.price %></p>
+        </div>
+
+        <div class="bg-white p-8 rounded shadow">
+            <h3 class="text-xl font-bold mb-6">User Comments</h3>
+            
+            <% if (comments.length === 0) { %>
+                <p class="text-gray-500 italic">No comments yet.</p>
+            <% } %>
+
+            <ul class="space-y-4 mb-8">
+                <% comments.forEach(comment => { %>
+                    <li class="border-b pb-2">
+                        <div class="flex justify-between text-sm text-gray-500 mb-1">
+                            <span class="font-bold text-blue-600"><%= comment.username %></span>
+                            <span><%= comment.date %></span>
+                        </div>
+                        <p class="text-gray-800"><%= comment.text %></p>
+                    </li>
+                <% }) %>
+            </ul>
+
+            <% if (user) { %>
+                <form action="/product/<%= product.id %>/comment" method="POST" class="mt-4">
+                    <textarea name="text" rows="3" class="w-full border rounded p-2 mb-2" placeholder="Add a comment..." required></textarea>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Post Comment</button>
+                </form>
+            <% } else { %>
+                <div class="bg-yellow-100 p-4 rounded text-yellow-800">
+                    Please <a href="/login" class="underline font-bold">login</a> to leave a comment.
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
